@@ -29,34 +29,20 @@ fn setup(
         // Generate random X and Y coordinate, map it to [-1, 1], and multiply by the X_EXTEND.
         let x = (2.0 * rng.random::<f32>() - 1.0) * X_EXTENT;
         let y = (2.0 * rng.random::<f32>() - 1.0) * X_EXTENT;
+        println!("Setting circle at ({x}, {y}).");
 
         let color = Color::linear_rgb(1.0, 0.0, 0.0);
         commands.spawn((
             Mesh2d(circle),
             MeshMaterial2d(materials.add(color)),
             Transform::from_xyz(x, y, 0.0),
-            Velocity(Vec3 {
-                x: 210.0,
-                y: 210.0,
-                z: 0.0,
-            }),
-            PhysicalTranslation::default(),
-            PreviousPhysicalTranslation::default(),
+            PhysicalTranslation(Vec3::new(x, y, 0.0)),
+            PreviousPhysicalTranslation(Vec3::new(x, y, 0.0)),
+            Velocity::default(),
+            AccumulatedInput::default(),
         ));
     }
 }
-
-// #[cfg(not(target_arch = "wasm32"))]
-// fn redraw_circles(
-// mut commands: Commands,
-// mut meshes: ResMut<Assets<Mesh>>,
-// keyboard: Res<ButtonInput<KeyCode>>,
-// mut materials: ResMut<Assets<ColorMaterial>>,
-// ) {
-//     if keyboard.just_pressed(KeyCode::Space) {
-
-//     }
-// }
 
 fn advance_physics(
     fixed_time: Res<Time<Fixed>>,
