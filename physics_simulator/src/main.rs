@@ -1,21 +1,31 @@
 use std::f32::consts::PI;
 
-use bevy::{math::ops::{cos, sin, sqrt}, prelude::*};
+use bevy::{
+    math::ops::{cos, sin},
+    prelude::*,
+};
+
 #[cfg(not(target_arch = "wasm32"))]
 use rand::prelude::*;
 
-#[derive(Debug, Component, Clone, Copy, PartialEq, Default, Deref, DerefMut)]
-struct AccumulatedInput(Vec2);
+const G: f32 = 6.67430e-11;
 
-/// A vector representing a ball's velocity in the physics simulation.
+/// A vector representing a particle's velocity in the physics simulation.
 #[derive(Debug, Component, Clone, Copy, PartialEq, Default, Deref, DerefMut)]
 struct Velocity(Vec3);
+
+/// A vector representing a particle's force in the physics simulation.
+#[derive(Debug, Component, Clone, Copy, PartialEq, Default, Deref, DerefMut)]
+struct Force(Vec3);
 
 #[derive(Debug, Component, Clone, Copy, PartialEq, Default, Deref, DerefMut)]
 struct PhysicalTranslation(Vec3);
 
 #[derive(Debug, Component, Clone, Copy, PartialEq, Default, Deref, DerefMut)]
 struct PreviousPhysicalTranslation(Vec3);
+
+#[derive(Debug, Component, Clone, Copy, PartialEq, Default, Deref, DerefMut)]
+struct Mass(f32);
 
 const X_EXTENT: f32 = 900.;
 
@@ -31,12 +41,13 @@ fn setup(
         // Generate random X and Y coordinate, map it to [-1, 1], and multiply by the X_EXTEND.
         let x = (2.0 * rng.random::<f32>() - 1.0) * X_EXTENT;
         let y = (2.0 * rng.random::<f32>() - 1.0) * X_EXTENT;
-        println!("Setting circle at ({x}, {y}).");
 
         let theta = 2.0 * PI * rng.random::<f32>();
         let v_x = 210.0 * cos(theta);
         let v_y = 210.0 * sin(theta);
-        
+
+        let mass = 100.0 * rng.random::<f32>();
+
         let color = Color::linear_rgb(1.0, 0.0, 0.0);
         commands.spawn((
             Mesh2d(circle),
@@ -45,6 +56,8 @@ fn setup(
             PhysicalTranslation(Vec3::new(x, y, 0.0)),
             PreviousPhysicalTranslation(Vec3::new(x, y, 0.0)),
             Velocity(Vec3::new(v_x, v_y, 0.0)),
+            Force::default(),
+            Mass(mass),
         ));
     }
 }
@@ -52,17 +65,48 @@ fn setup(
 fn advance_physics(
     fixed_time: Res<Time<Fixed>>,
     mut query: Query<(
+        Entity,
         &mut PhysicalTranslation,
         &mut PreviousPhysicalTranslation,
-        &Velocity,
+        &mut Velocity,
+        &mut Force,
+        &Mass,
     )>,
+    position_query: Query<(Entity, &PhysicalTranslation, &Mass)>,
 ) {
-    for (mut current_physical_translation, mut previous_physical_translation, velocity) in
-        query.iter_mut()
+    // First collect all positions and masses into a temporary vector
+    let positions_and_masses: Vec<_> = position_query
+        .iter()
+        .map(|(entity, pos, mass)| (entity, pos.0, mass.0))
+        .collect();
+
+    for (
+        entity_a,
+        mut current_physical_translation,
+        mut previous_physical_translation,
+        mut velocity,
+        mut force,
+        mass_a,
+    ) in query.iter_mut()
     {
+        let position_a = current_physical_translation.0;
+        force.0 = Vec3::ZERO; // Reset force before accumulation
+        
+        // Calculate the force from all other bodies
+        for (entity_b, position_b, mass_b) in &positions_and_masses {
+            if entity_a == *entity_b {
+                continue;
+            }
+            let distance = position_a.distance(*position_b);
+            let g_force = (G * mass_a.0 * *mass_b) / distance;
+            let force_vector = (*position_b - position_a).normalize() * g_force;
+
+            force.0 += force_vector;
+        }
+
         previous_physical_translation.0 = current_physical_translation.0;
         current_physical_translation.0 += velocity.0 * fixed_time.delta_secs();
-        // Reset the input accumulator, as we are currently consuming all input that happened since the last fixed timestep.
+        velocity.0 += force.0 / mass_a.0 * fixed_time.delta_secs(); // F=ma => a=F/m
     }
 }
 
