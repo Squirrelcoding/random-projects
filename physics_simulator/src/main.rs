@@ -1,5 +1,3 @@
-use std::f32::consts::PI;
-
 use bevy::{
     math::ops::{cos, sin},
     prelude::*,
@@ -8,7 +6,7 @@ use bevy::{
 #[cfg(not(target_arch = "wasm32"))]
 use rand::prelude::*;
 
-const G: f32 = 6.67430e-11;
+const G: f32 = 50.0;
 
 /// A vector representing a particle's velocity in the physics simulation.
 #[derive(Debug, Component, Clone, Copy, PartialEq, Default, Deref, DerefMut)]
@@ -37,16 +35,12 @@ fn setup(
     commands.spawn(Camera2d);
     let mut rng = rand::rng();
     for _ in 0..100 {
-        let circle = meshes.add(Circle::new(20.0));
+        let mass = 100.0 * rng.random::<f32>();
+        let circle = meshes.add(Circle::new(mass / 5.0));
         // Generate random X and Y coordinate, map it to [-1, 1], and multiply by the X_EXTEND.
         let x = (2.0 * rng.random::<f32>() - 1.0) * X_EXTENT;
         let y = (2.0 * rng.random::<f32>() - 1.0) * X_EXTENT;
 
-        let theta = 2.0 * PI * rng.random::<f32>();
-        let v_x = 210.0 * cos(theta);
-        let v_y = 210.0 * sin(theta);
-
-        let mass = 100.0 * rng.random::<f32>();
 
         let color = Color::linear_rgb(1.0, 0.0, 0.0);
         commands.spawn((
@@ -55,7 +49,7 @@ fn setup(
             Transform::from_xyz(x, y, 0.0),
             PhysicalTranslation(Vec3::new(x, y, 0.0)),
             PreviousPhysicalTranslation(Vec3::new(x, y, 0.0)),
-            Velocity(Vec3::new(v_x, v_y, 0.0)),
+            Velocity::default(),
             Force::default(),
             Mass(mass),
         ));
@@ -64,18 +58,21 @@ fn setup(
 
 fn advance_physics(
     fixed_time: Res<Time<Fixed>>,
-    mut query: Query<(
-        Entity,
-        &mut PhysicalTranslation,
-        &mut PreviousPhysicalTranslation,
-        &mut Velocity,
-        &mut Force,
-        &Mass,
+    mut params: ParamSet<(
+        Query<(
+            Entity,
+            &mut PhysicalTranslation,
+            &mut PreviousPhysicalTranslation,
+            &mut Velocity,
+            &mut Force,
+            &Mass,
+        )>,
+        Query<(Entity, &PhysicalTranslation, &Mass)>,
     )>,
-    position_query: Query<(Entity, &PhysicalTranslation, &Mass)>,
 ) {
     // First collect all positions and masses into a temporary vector
-    let positions_and_masses: Vec<_> = position_query
+    let positions_and_masses: Vec<_> = params
+        .p1()
         .iter()
         .map(|(entity, pos, mass)| (entity, pos.0, mass.0))
         .collect();
@@ -87,26 +84,26 @@ fn advance_physics(
         mut velocity,
         mut force,
         mass_a,
-    ) in query.iter_mut()
+    ) in params.p0().iter_mut()
     {
         let position_a = current_physical_translation.0;
-        force.0 = Vec3::ZERO; // Reset force before accumulation
-        
+        force.0 = Vec3::ZERO;
+
         // Calculate the force from all other bodies
         for (entity_b, position_b, mass_b) in &positions_and_masses {
             if entity_a == *entity_b {
                 continue;
             }
             let distance = position_a.distance(*position_b);
-            let g_force = (G * mass_a.0 * *mass_b) / distance;
+            let g_force = (G * mass_a.0 * *mass_b) / distance.powi(2);
             let force_vector = (*position_b - position_a).normalize() * g_force;
 
             force.0 += force_vector;
         }
 
+        velocity.0 += force.0 / mass_a.0; // F=ma => a=F/m
         previous_physical_translation.0 = current_physical_translation.0;
         current_physical_translation.0 += velocity.0 * fixed_time.delta_secs();
-        velocity.0 += force.0 / mass_a.0 * fixed_time.delta_secs(); // F=ma => a=F/m
     }
 }
 
