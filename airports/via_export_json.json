@@ -1,0 +1,1368 @@
+{
+    "albuquerque.png442745": {
+        "filename": "albuquerque.png",
+        "size": 442745,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 191,
+                    "y": 200,
+                    "width": 241,
+                    "height": 126
+                },
+                "region_attributes": {
+                    "airport": "airport",
+                    "class": {
+                        "airport": true
+                    }
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "atlanta.png358765": {
+        "filename": "atlanta.png",
+        "size": 358765,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 92,
+                    "y": 76,
+                    "width": 184,
+                    "height": 165
+                },
+                "region_attributes": {
+                    "class": {
+                        "airport": true
+                    }
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "austin.png412691": {
+        "filename": "austin.png",
+        "size": 412691,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 233,
+                    "y": 106,
+                    "width": 115,
+                    "height": 220
+                },
+                "region_attributes": {
+                    "class": {
+                        "airport": true
+                    }
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "bakersfield.png444372": {
+        "filename": "bakersfield.png",
+        "size": 444372,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 145,
+                    "y": 104,
+                    "width": 153,
+                    "height": 174
+                },
+                "region_attributes": {
+                    "class": {
+                        "airport": true
+                    }
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "baltimore.png316832": {
+        "filename": "baltimore.png",
+        "size": 316832,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 53,
+                    "y": 107,
+                    "width": 109,
+                    "height": 101
+                },
+                "region_attributes": {
+                    "class": {
+                        "airport": true
+                    }
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "boise.png398245": {
+        "filename": "boise.png",
+        "size": 398245,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 80,
+                    "y": 260,
+                    "width": 162,
+                    "height": 79
+                },
+                "region_attributes": {
+                    "class": {
+                        "airport": true
+                    }
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "boston.png171944": {
+        "filename": "boston.png",
+        "size": 171944,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 354,
+                    "y": 37,
+                    "width": 110,
+                    "height": 106
+                },
+                "region_attributes": {
+                    "class": {
+                        "airport": true
+                    }
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "buffalo.png381530": {
+        "filename": "buffalo.png",
+        "size": 381530,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 255,
+                    "y": 128,
+                    "width": 90,
+                    "height": 86
+                },
+                "region_attributes": {
+                    "class": {
+                        "airport": true
+                    }
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "chicago.png299016": {
+        "filename": "chicago.png",
+        "size": 299016,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 129,
+                    "y": 105,
+                    "width": 89,
+                    "height": 99
+                },
+                "region_attributes": {
+                    "class": {
+                        "airport": true
+                    }
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "cincinnati.png250865": {
+        "filename": "cincinnati.png",
+        "size": 250865,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 82,
+                    "y": 92,
+                    "width": 92,
+                    "height": 122
+                },
+                "region_attributes": {
+                    "class": {
+                        "airport": true
+                    }
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "cleveland.png382268": {
+        "filename": "cleveland.png",
+        "size": 382268,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 57,
+                    "y": 102,
+                    "width": 110,
+                    "height": 71
+                },
+                "region_attributes": {
+                    "class": {
+                        "airport": true
+                    }
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "columbus.png364710": {
+        "filename": "columbus.png",
+        "size": 364710,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 282,
+                    "y": 182,
+                    "width": 192,
+                    "height": 115
+                },
+                "region_attributes": {
+                    "class": {
+                        "airport": true
+                    }
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "dallas.png421340": {
+        "filename": "dallas.png",
+        "size": 421340,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 53,
+                    "y": 118,
+                    "width": 327,
+                    "height": 250
+                },
+                "region_attributes": {
+                    "class": {
+                        "airport": true
+                    }
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "dc.png316889": {
+        "filename": "dc.png",
+        "size": 316889,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 110,
+                    "y": 62,
+                    "width": 81,
+                    "height": 158
+                },
+                "region_attributes": {
+                    "class": {
+                        "airport": true
+                    }
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "denver.png352017": {
+        "filename": "denver.png",
+        "size": 352017,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 139,
+                    "y": 10,
+                    "width": 247,
+                    "height": 366
+                },
+                "region_attributes": {
+                    "class": {
+                        "airport": true
+                    }
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "detroit.png188377": {
+        "filename": "detroit.png",
+        "size": 188377,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 86,
+                    "y": 271,
+                    "width": 103,
+                    "height": 96
+                },
+                "region_attributes": {
+                    "class": {
+                        "airport": true
+                    }
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "dover.png392000": {
+        "filename": "dover.png",
+        "size": 392000,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 257,
+                    "y": 91,
+                    "width": 198,
+                    "height": 189
+                },
+                "region_attributes": {
+                    "class": {
+                        "airport": true
+                    }
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "fort-meyers1.png418776": {
+        "filename": "fort-meyers1.png",
+        "size": 418776,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 178,
+                    "y": 128,
+                    "width": 91,
+                    "height": 80
+                },
+                "region_attributes": {
+                    "class": {
+                        "airport": true
+                    }
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "fort-meyers2.png318249": {
+        "filename": "fort-meyers2.png",
+        "size": 318249,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 160,
+                    "y": 108,
+                    "width": 155,
+                    "height": 126
+                },
+                "region_attributes": {
+                    "class": {
+                        "airport": true
+                    }
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "fort-worth.png373793": {
+        "filename": "fort-worth.png",
+        "size": 373793,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 169,
+                    "y": 79,
+                    "width": 70,
+                    "height": 188
+                },
+                "region_attributes": {
+                    "class": {
+                        "airport": true
+                    }
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "fresno.png303009": {
+        "filename": "fresno.png",
+        "size": 303009,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 52,
+                    "y": 116,
+                    "width": 138,
+                    "height": 98
+                },
+                "region_attributes": {
+                    "class": {
+                        "airport": true
+                    }
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "gilbert.png407415": {
+        "filename": "gilbert.png",
+        "size": 407415,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 288,
+                    "y": 140,
+                    "width": 148,
+                    "height": 135
+                },
+                "region_attributes": {
+                    "class": {
+                        "airport": true
+                    }
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "houston.png438588": {
+        "filename": "houston.png",
+        "size": 438588,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 171,
+                    "y": 121,
+                    "width": 90,
+                    "height": 97
+                },
+                "region_attributes": {
+                    "class": {
+                        "airport": true
+                    }
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "houston2.png402085": {
+        "filename": "houston2.png",
+        "size": 402085,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 103,
+                    "y": 75,
+                    "width": 280,
+                    "height": 238
+                },
+                "region_attributes": {
+                    "class": {
+                        "airport": true
+                    }
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "irvine.png502852": {
+        "filename": "irvine.png",
+        "size": 502852,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 177,
+                    "y": 123,
+                    "width": 107,
+                    "height": 122
+                },
+                "region_attributes": {
+                    "class": {
+                        "airport": true
+                    }
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "jacksonville.png306341": {
+        "filename": "jacksonville.png",
+        "size": 306341,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 138,
+                    "y": 147,
+                    "width": 168,
+                    "height": 88
+                },
+                "region_attributes": {
+                    "class": {
+                        "airport": true
+                    }
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "las-vegas.png432463": {
+        "filename": "las-vegas.png",
+        "size": 432463,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 68,
+                    "y": 115,
+                    "width": 202,
+                    "height": 133
+                },
+                "region_attributes": {
+                    "class": {
+                        "airport": true
+                    }
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "lgb.png253511": {
+        "filename": "lgb.png",
+        "size": 253511,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 62,
+                    "y": 68,
+                    "width": 203,
+                    "height": 207
+                },
+                "region_attributes": {
+                    "class": {
+                        "airport": true
+                    }
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "los-angeles.png376250": {
+        "filename": "los-angeles.png",
+        "size": 376250,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 74,
+                    "y": 111,
+                    "width": 197,
+                    "height": 82
+                },
+                "region_attributes": {
+                    "class": {
+                        "airport": true
+                    }
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "merced.png287531": {
+        "filename": "merced.png",
+        "size": 287531,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 49,
+                    "y": 125,
+                    "width": 92,
+                    "height": 125
+                },
+                "region_attributes": {
+                    "class": {
+                        "airport": true
+                    }
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "miami1.png427838": {
+        "filename": "miami1.png",
+        "size": 427838,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 66,
+                    "y": 99,
+                    "width": 209,
+                    "height": 105
+                },
+                "region_attributes": {
+                    "class": {
+                        "airport": true
+                    }
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "miami2.png401837": {
+        "filename": "miami2.png",
+        "size": 401837,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 194,
+                    "y": 148,
+                    "width": 167,
+                    "height": 69
+                },
+                "region_attributes": {
+                    "class": {
+                        "airport": true
+                    }
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "miami3.png388010": {
+        "filename": "miami3.png",
+        "size": 388010,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 260,
+                    "y": 178,
+                    "width": 60,
+                    "height": 60
+                },
+                "region_attributes": {
+                    "class": {
+                        "airport": true
+                    }
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "miami4.png323577": {
+        "filename": "miami4.png",
+        "size": 323577,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 192,
+                    "y": 77,
+                    "width": 156,
+                    "height": 75
+                },
+                "region_attributes": {
+                    "class": {
+                        "airport": true
+                    }
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "milwaukee.png361415": {
+        "filename": "milwaukee.png",
+        "size": 361415,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 180,
+                    "y": 190,
+                    "width": 90,
+                    "height": 104
+                },
+                "region_attributes": {
+                    "class": {
+                        "airport": true
+                    }
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "modesto.png387091": {
+        "filename": "modesto.png",
+        "size": 387091,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 313,
+                    "y": 128,
+                    "width": 165,
+                    "height": 86
+                },
+                "region_attributes": {
+                    "class": {
+                        "airport": true
+                    }
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "mpls.png426481": {
+        "filename": "mpls.png",
+        "size": 426481,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 217,
+                    "y": 294,
+                    "width": 93,
+                    "height": 74
+                },
+                "region_attributes": {
+                    "class": {
+                        "airport": true
+                    }
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "new-haven.png345120": {
+        "filename": "new-haven.png",
+        "size": 345120,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 162,
+                    "y": 172,
+                    "width": 46,
+                    "height": 123
+                },
+                "region_attributes": {
+                    "class": {
+                        "airport": true
+                    }
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "new-orleans.png432972": {
+        "filename": "new-orleans.png",
+        "size": 432972,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 58,
+                    "y": 173,
+                    "width": 166,
+                    "height": 113
+                },
+                "region_attributes": {
+                    "class": {
+                        "airport": true
+                    }
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "norfolk.png338021": {
+        "filename": "norfolk.png",
+        "size": 338021,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 336,
+                    "y": 102,
+                    "width": 118,
+                    "height": 149
+                },
+                "region_attributes": {
+                    "class": {
+                        "airport": true
+                    }
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "nyc-newark.png314068": {
+        "filename": "nyc-newark.png",
+        "size": 314068,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 294,
+                    "y": 70,
+                    "width": 139,
+                    "height": 154
+                },
+                "region_attributes": {
+                    "class": {
+                        "airport": true
+                    }
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "oakland.png378264": {
+        "filename": "oakland.png",
+        "size": 378264,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 27,
+                    "y": 92,
+                    "width": 179,
+                    "height": 202
+                },
+                "region_attributes": {
+                    "class": {
+                        "airport": true
+                    }
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "ontario.png365259": {
+        "filename": "ontario.png",
+        "size": 365259,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 12,
+                    "y": 48,
+                    "width": 231,
+                    "height": 55
+                },
+                "region_attributes": {
+                    "class": {
+                        "airport": true
+                    }
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "orlando.png335304": {
+        "filename": "orlando.png",
+        "size": 335304,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 130,
+                    "y": 76,
+                    "width": 227,
+                    "height": 214
+                },
+                "region_attributes": {
+                    "class": {
+                        "airport": true
+                    }
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "philadelphia.png441061": {
+        "filename": "philadelphia.png",
+        "size": 441061,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 221,
+                    "y": 203,
+                    "width": 207,
+                    "height": 126
+                },
+                "region_attributes": {
+                    "class": {
+                        "airport": true
+                    }
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "phoenix.png721587": {
+        "filename": "phoenix.png",
+        "size": 721587,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 69,
+                    "y": 132,
+                    "width": 345,
+                    "height": 134
+                },
+                "region_attributes": {
+                    "class": {
+                        "airport": true
+                    }
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "pittsburgh.png374730": {
+        "filename": "pittsburgh.png",
+        "size": 374730,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 86,
+                    "y": 174,
+                    "width": 281,
+                    "height": 128
+                },
+                "region_attributes": {
+                    "class": {
+                        "airport": true
+                    }
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "portland.png345789": {
+        "filename": "portland.png",
+        "size": 345789,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 200,
+                    "y": 27,
+                    "width": 130,
+                    "height": 80
+                },
+                "region_attributes": {
+                    "class": {
+                        "airport": true
+                    }
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "providence.png285571": {
+        "filename": "providence.png",
+        "size": 285571,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 229,
+                    "y": 166,
+                    "width": 66,
+                    "height": 120
+                },
+                "region_attributes": {
+                    "class": {
+                        "airport": true
+                    }
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "richmond.png356111": {
+        "filename": "richmond.png",
+        "size": 356111,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 176,
+                    "y": 86,
+                    "width": 169,
+                    "height": 208
+                },
+                "region_attributes": {
+                    "class": {
+                        "airport": true
+                    }
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "sacramento.png303867": {
+        "filename": "sacramento.png",
+        "size": 303867,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 96,
+                    "y": 72,
+                    "width": 52,
+                    "height": 115
+                },
+                "region_attributes": {
+                    "class": {
+                        "airport": true
+                    }
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "salt-lake-city.png363485": {
+        "filename": "salt-lake-city.png",
+        "size": 363485,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 19,
+                    "y": 78,
+                    "width": 148,
+                    "height": 194
+                },
+                "region_attributes": {
+                    "class": {
+                        "airport": true
+                    }
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "san-antonio.png428043": {
+        "filename": "san-antonio.png",
+        "size": 428043,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 90,
+                    "y": 99,
+                    "width": 184,
+                    "height": 100
+                },
+                "region_attributes": {
+                    "class": {
+                        "airport": true
+                    }
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "san-antonio2.png351378": {
+        "filename": "san-antonio2.png",
+        "size": 351378,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 57,
+                    "y": 69,
+                    "width": 122,
+                    "height": 175
+                },
+                "region_attributes": {
+                    "class": {
+                        "airport": true
+                    }
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "san-diego.png467618": {
+        "filename": "san-diego.png",
+        "size": 467618,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 180,
+                    "y": 172,
+                    "width": 197,
+                    "height": 92
+                },
+                "region_attributes": {
+                    "class": {
+                        "airport": true
+                    }
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "san-diego2.png299172": {
+        "filename": "san-diego2.png",
+        "size": 299172,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 66,
+                    "y": 116,
+                    "width": 189,
+                    "height": 75
+                },
+                "region_attributes": {
+                    "class": {
+                        "airport": true
+                    }
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "san-francisco.png244000": {
+        "filename": "san-francisco.png",
+        "size": 244000,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 77,
+                    "y": 81,
+                    "width": 195,
+                    "height": 147
+                },
+                "region_attributes": {
+                    "class": {
+                        "airport": true
+                    }
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "san-jose.png338649": {
+        "filename": "san-jose.png",
+        "size": 338649,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 74,
+                    "y": 88,
+                    "width": 111,
+                    "height": 115
+                },
+                "region_attributes": {
+                    "class": {
+                        "airport": true
+                    }
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "seattle.png411423": {
+        "filename": "seattle.png",
+        "size": 411423,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 217,
+                    "y": 72,
+                    "width": 88,
+                    "height": 187
+                },
+                "region_attributes": {
+                    "class": {
+                        "airport": true
+                    }
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "spokane.png358584": {
+        "filename": "spokane.png",
+        "size": 358584,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 179,
+                    "y": 211,
+                    "width": 136,
+                    "height": 126
+                },
+                "region_attributes": {
+                    "class": {
+                        "airport": true
+                    }
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "stockton.png240364": {
+        "filename": "stockton.png",
+        "size": 240364,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 298,
+                    "y": 115,
+                    "width": 100,
+                    "height": 78
+                },
+                "region_attributes": {
+                    "class": {
+                        "airport": true
+                    }
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "tallahassee.png361999": {
+        "filename": "tallahassee.png",
+        "size": 361999,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 111,
+                    "y": 149,
+                    "width": 151,
+                    "height": 134
+                },
+                "region_attributes": {
+                    "class": {
+                        "airport": true
+                    }
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "tampa.png440743": {
+        "filename": "tampa.png",
+        "size": 440743,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 154,
+                    "y": 95,
+                    "width": 133,
+                    "height": 158
+                },
+                "region_attributes": {
+                    "class": {
+                        "airport": true
+                    }
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "tampa2.png303083": {
+        "filename": "tampa2.png",
+        "size": 303083,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 194,
+                    "y": 13,
+                    "width": 83,
+                    "height": 164
+                },
+                "region_attributes": {
+                    "class": {
+                        "airport": true
+                    }
+                }
+            }
+        ],
+        "file_attributes": {}
+    },
+    "tucson.png428039": {
+        "filename": "tucson.png",
+        "size": 428039,
+        "regions": [
+            {
+                "shape_attributes": {
+                    "name": "rect",
+                    "x": 147,
+                    "y": 60,
+                    "width": 198,
+                    "height": 182
+                },
+                "region_attributes": {
+                    "class": {
+                        "airport": true
+                    }
+                }
+            }
+        ],
+        "file_attributes": {}
+    }
+}
