@@ -15,8 +15,10 @@ import PIL.Image
 
 torch.manual_seed(42)
 
-BATCH_SIZE = 32
-NUM_WORKERS = os.cpu_count()
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+BATCH_SIZE = 2
+NUM_WORKERS = 2
 
 class AirportDataset(torch.utils.data.Dataset):
     def __init__(self, root_dir: str, annotation_file: str, transform=None):
@@ -60,7 +62,7 @@ class AirportDataset(torch.utils.data.Dataset):
         boxes[:, 3] *= scale_y
 
         # convert the image
-        img = to_dtype(tv_tensors.Image(img), torch.float64)
+        img = to_dtype(tv_tensors.Image(img), torch.float32)
 
         target = {}
 
@@ -86,8 +88,7 @@ class AirportDataset(torch.utils.data.Dataset):
 def collate_fn(batch):
     return tuple(zip(*batch))
 
-
-dataset = AirportDataset("data", "via_export_json.json")
+dataset = AirportDataset("data/airports", "via_export_json.json")
 
 # Form new training and testing dataloaders
 N = len(dataset)
@@ -108,11 +109,74 @@ test_dataloader = DataLoader(
     num_workers=NUM_WORKERS # type: ignore
 )
 
+from torchvision.models.detection.faster_rcnn import FastRCNNPredictor
+
 model = fasterrcnn_resnet50_fpn(weights=FasterRCNN_ResNet50_FPN_Weights.DEFAULT)
+
+in_features = model.roi_heads.box_predictor.cls_score.in_features
+
+# Replace the head with a new one for 2 classes (background and airport)
+model.roi_heads.box_predictor = FastRCNNPredictor(in_features, 2)
+model.to(device)
 
 model.train()
 
 train_loss, train_acc = 0, 0
 
-for X, y in train_dataloader:
-    pred = model(X, y)
+optimizer = torch.optim.SGD(model.parameters(), lr=0.005, momentum=0.9, 
+                                                   weight_decay=0.0005)
+
+epochs = 5
+
+for epoch in range(epochs):
+    model.train()
+    for images, targets in train_dataloader:
+        images = [img.to(device) for img in images]
+        targets = [{k: v.to(device) for k, v in t.items()} for t in targets]
+
+        optimizer.zero_grad()
+
+        pred = model(images, targets)
+        losses = sum(loss for loss in pred.values())
+
+        losses.backward()
+        optimizer.step()
+        train_loss += losses.item()
+
+    print(f"Epoch {epoch + 1} / {epochs} done!")
+
+model.eval()
+
+with torch.no_grad():
+    for images, targets in test_dataloader:
+        images = list(img.to(device) for img in images)
+        predictions = model(images)
+        # Example: print the bounding boxes and labels for the first image
+        print(predictions[0]['boxes'])
+        print(predictions[0]['labels'])
+
+import cv2
+from PIL import Image
+import torchvision.transforms.v2 as T
+
+
+# Load image
+img = Image.open("drive/MyDrive/data/airports/mpls.png").convert("RGB")
+# Apply the same transformation as for training
+
+transform = T.Compose([
+    T.Resize((400, 400)),
+    T.ToTensor(),
+])
+
+img = transform(img)
+img = img.squeeze(0).to(device)
+# print(img.shape)
+img.permute(1, 2, 0)
+# Model prediction
+model.eval()
+with torch.no_grad():
+    prediction = model([img])
+# Print the predicted bounding boxes and labels
+print(prediction[0]['boxes'])
+print(prediction[0]['labels'])
