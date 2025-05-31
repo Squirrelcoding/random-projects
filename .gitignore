@@ -1,1 +1,5 @@
 physics_simulator/target
+airports/__pycache__
+airports/data
+env/
+.vscode/

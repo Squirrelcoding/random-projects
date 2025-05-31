@@ -45,42 +45,34 @@ class AirportDataset(torch.utils.data.Dataset):
                 })
 
     def __getitem__(self, idx: int) -> Any:
-        entry = self.data[idx]
-        img = PIL.Image.open(entry["img_path"]).convert("RGB")
+      entry = self.data[idx]
+      img = PIL.Image.open(entry["img_path"]).convert("RGB")
 
-        # Resize the image to 400 x 400 pixels and calculate the scale factors
-        scale_x = 400 / img.width
-        scale_y = 400 / img.height
-        img = img.resize((400, 400))
+      # Resize and scale boxes (same as before)
+      scale_x = 400 / img.width
+      scale_y = 400 / img.height
+      img = img.resize((400, 400))
 
-        boxes = torch.tensor(entry["boxes"], dtype=torch.float32)
+      boxes = torch.tensor(entry["boxes"], dtype=torch.float32)
+      boxes[:, [0, 2]] *= scale_x  # x1, x2
+      boxes[:, [1, 3]] *= scale_y  # y1, y2
 
-        # Scale the boxes
-        boxes[:, 2] *= scale_x
-        boxes[:, 0] *= scale_x
-        boxes[:, 1] *= scale_y
-        boxes[:, 3] *= scale_y
+      # Convert to tensor and normalize
+      img = F.to_dtype(F.to_image(img), torch.float32, scale=True)  # [0,1] range
+      img = F.normalize(img, mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
 
-        # convert the image
-        img = to_dtype(tv_tensors.Image(img), torch.float32)
+      target = {
+          "boxes": boxes,
+          "labels": torch.ones((boxes.shape[0],), dtype=torch.int64),
+          "image_id": torch.tensor(idx),
+          "area": (boxes[:, 2] - boxes[:, 0]) * (boxes[:, 3] - boxes[:, 1]),
+          "iscrowd": torch.zeros((boxes.shape[0],), dtype=torch.int64),
+      }
 
-        target = {}
+      if self.transform:
+          img, target = self.transform(img, target)
 
-        # Update boxes so that its a set of bounding boxes
-        target["boxes"] = tv_tensors.BoundingBoxes(
-            boxes, 
-            format="XYXY", 
-            canvas_size=F.get_size(img) # type: ignore
-        )
-        target["labels"] = torch.ones((boxes.shape[0],), dtype=torch.int64)
-        target["image_id"] = torch.tensor(idx)
-        target["area"] = (boxes[:, 2] - boxes[:, 0]) * (boxes[:, 3] - boxes[:, 1])
-        target["iscrowd"] = torch.zeros((boxes.shape[0],), dtype=torch.int64)
-
-        if self.transform is not None:
-            img, target = self.transform(img, target)
-
-        return img, target
+      return img, target
 
     def __len__(self) -> int:
         return len(self.data)
@@ -88,7 +80,7 @@ class AirportDataset(torch.utils.data.Dataset):
 def collate_fn(batch):
     return tuple(zip(*batch))
 
-dataset = AirportDataset("data/airports", "via_export_json.json")
+dataset = AirportDataset("drive/MyDrive/data/airports", "drive/MyDrive/data/via_export_json.json")
 
 # Form new training and testing dataloaders
 N = len(dataset)
@@ -121,7 +113,7 @@ model.to(device)
 
 model.train()
 
-train_loss, train_acc = 0, 0
+epoch_loss, train_acc = 0, 0
 
 optimizer = torch.optim.SGD(model.parameters(), lr=0.005, momentum=0.9, 
                                                    weight_decay=0.0005)
@@ -141,42 +133,71 @@ for epoch in range(epochs):
 
         losses.backward()
         optimizer.step()
-        train_loss += losses.item()
+        epoch_loss += losses.item()
+    
+    print(f"Epoch {epoch+1} Loss: {epoch_loss / len(train_dataloader):.4f}")
 
-    print(f"Epoch {epoch + 1} / {epochs} done!")
-
-model.eval()
-
-with torch.no_grad():
-    for images, targets in test_dataloader:
-        images = list(img.to(device) for img in images)
-        predictions = model(images)
-        # Example: print the bounding boxes and labels for the first image
-        print(predictions[0]['boxes'])
-        print(predictions[0]['labels'])
-
-import cv2
+import random
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+import numpy as np
 from PIL import Image
 import torchvision.transforms.v2 as T
 
+# WRITTEN BY DEEPSEEK cause im too lazy
 
-# Load image
-img = Image.open("drive/MyDrive/data/airports/mpls.png").convert("RGB")
-# Apply the same transformation as for training
+# 1. Pick a random image from the test dataset
+random_idx = random.randint(0, len(test_dataset) - 1)
+image, target = test_dataset[random_idx]  # Get image and ground truth (unused here)
 
-transform = T.Compose([
-    T.Resize((400, 400)),
-    T.ToTensor(),
-])
+# 2. Convert image tensor back to numpy for visualization
+def denormalize(tensor):
+    """Reverse normalization for display"""
+    mean = torch.tensor([0.485, 0.456, 0.406]).view(3, 1, 1)
+    std = torch.tensor([0.229, 0.224, 0.225]).view(3, 1, 1)
+    return tensor.cpu() * std + mean
 
-img = transform(img)
-img = img.squeeze(0).to(device)
-# print(img.shape)
-img.permute(1, 2, 0)
-# Model prediction
+# Denormalize and permute dimensions (C, H, W) -> (H, W, C)
+vis_img = denormalize(image).permute(1, 2, 0).numpy()
+vis_img = np.clip(vis_img, 0, 1)  # Ensure pixel values are valid
+
+# 3. Run inference
 model.eval()
 with torch.no_grad():
-    prediction = model([img])
-# Print the predicted bounding boxes and labels
-print(prediction[0]['boxes'])
-print(prediction[0]['labels'])
+    prediction = model([image.to(device)])[0]  # Get first (and only) prediction
+
+# 4. Filter predictions by confidence threshold
+confidence_threshold = 0.5
+keep = prediction['scores'] > confidence_threshold
+boxes = prediction['boxes'][keep].cpu().numpy()
+scores = prediction['scores'][keep].cpu().numpy()
+labels = prediction['labels'][keep].cpu().numpy()
+
+# 5. Plot the image with predicted boxes
+fig, ax = plt.subplots(1, figsize=(10, 10))
+ax.imshow(vis_img)
+
+# Add bounding boxes and labels
+for box, score, label in zip(boxes, scores, labels):
+    x1, y1, x2, y2 = box
+    width = x2 - x1
+    height = y2 - y1
+
+    # Draw rectangle
+    rect = patches.Rectangle(
+        (x1, y1), width, height,
+        linewidth=2, edgecolor='red', facecolor='none'
+    )
+    ax.add_patch(rect)
+
+    # Add label (e.g., "Airport: 0.95")
+    label_text = f"Airport: {score:.2f}"
+    ax.text(
+        x1, y1 - 5, label_text,
+        color='red', fontsize=12, weight='bold',
+        bbox=dict(facecolor='white', alpha=0.7, edgecolor='none')
+    )
+
+plt.axis('off')
+plt.title(f"Predictions for Random Test Image (Index: {random_idx})")
+plt.show()
