@@ -1,6 +1,5 @@
 import numpy as np
 import numpy.typing as npt
-
 np.random.seed(42)
 
 class Layer():
