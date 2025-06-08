@@ -1,10 +1,11 @@
 from __future__ import annotations
 
 import numpy as np
+import numpy.typing as npt
 
 # Forward differentiation with some basic variables
 class FVariable:
-    def __init__(self, primal: float, tangent: float) -> None:
+    def __init__(self, primal: npt.NDArray, tangent: npt.NDArray) -> None:
         self.primal = primal
         self.tangent = tangent
     def __add__(self, other: FVariable) -> FVariable:
@@ -46,10 +47,67 @@ class FVariable:
     def __repr__(self):
         return f"primal: {self.primal}, tangent: {self.tangent}"
 
-# Seed for df/dy
-vn1 = FVariable(3.0, 0.0)
-v0 = FVariable(-4.0, 1.0)
+# Taken from https://huggingface.co/blog/andmholm/what-is-automatic-differentiation
+class BVariable:
 
-v4 = (vn1 * v0).pow(-1.0)
+    def __init__(self, primal, adjoint=0.0):
+        self.primal = primal
+        self.adjoint = adjoint
 
-print(v4)
+    def backward(self, adjoint):
+        self.adjoint += adjoint
+
+    def __add__(self, other: BVariable):
+        variable = BVariable(self.primal + other.primal)
+
+        def backward(adjoint):
+            variable.adjoint += adjoint
+            self_adjoint = adjoint * 1.0
+            other_adjoint = adjoint * 1.0
+            self.backward(self_adjoint)
+            other.backward(other_adjoint)
+
+        variable.backward = backward
+        return variable
+
+    def __sub__(self, other: BVariable):
+        variable = BVariable(self.primal - other.primal)
+
+        def backward(adjoint):
+            variable.adjoint += adjoint
+            self_adjoint = adjoint * 1.0
+            other_adjoint = adjoint * -1.0
+            self.backward(self_adjoint)
+            other.backward(other_adjoint)
+
+        variable.backward = backward
+        return variable
+
+    def __mul__(self, other: BVariable):
+        variable = BVariable(self.primal * other.primal)
+
+        def backward(adjoint):
+            variable.adjoint += adjoint
+            self_adjoint = adjoint * other.primal
+            other_adjoint = adjoint * self.primal
+            self.backward(self_adjoint)
+            other.backward(other_adjoint)
+
+        variable.backward = backward
+        return variable
+
+    def __truediv__(self, other: BVariable):
+        variable = BVariable(self.primal / other.primal)
+
+        def backward(adjoint):
+            variable.adjoint += adjoint
+            self_adjoint = adjoint * (1.0 / other.primal)
+            other_adjoint = adjoint * (-1.0 * self.primal / other.primal**2)
+            self.backward(self_adjoint)
+            other.backward(other_adjoint)
+
+        variable.backward = backward
+        return variable
+
+    def __repr__(self) -> str:
+        return f"primal: {self.primal}, adjoint: {self.adjoint}"
