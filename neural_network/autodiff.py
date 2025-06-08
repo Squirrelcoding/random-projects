@@ -49,7 +49,6 @@ class FVariable:
 
 # Taken from https://huggingface.co/blog/andmholm/what-is-automatic-differentiation
 class BVariable:
-
     def __init__(self, primal, adjoint=0.0):
         self.primal = primal
         self.adjoint = adjoint
@@ -61,9 +60,16 @@ class BVariable:
         variable = BVariable(self.primal + other.primal)
 
         def backward(adjoint):
+            # Let Z = x1 + x2
+
+            # Accumulate gradient from output: df/dZ += incoming gradient
             variable.adjoint += adjoint
+
+            # These are dZ/dx1 and dZ/dx2
             self_adjoint = adjoint * 1.0
             other_adjoint = adjoint * 1.0
+            
+            # Update df/dx1 and df/dx2 for each input variable
             self.backward(self_adjoint)
             other.backward(other_adjoint)
 
@@ -74,9 +80,16 @@ class BVariable:
         variable = BVariable(self.primal - other.primal)
 
         def backward(adjoint):
+            # Let Z = x1 - x2
+
+            # Accumulate gradient: add adjoint to df/dZ
             variable.adjoint += adjoint
+            
+            # Compute dZ/dx1 and dZ/dx2
             self_adjoint = adjoint * 1.0
             other_adjoint = adjoint * -1.0
+
+            # Update dF/dx1 and dF/dx2
             self.backward(self_adjoint)
             other.backward(other_adjoint)
 
@@ -87,9 +100,22 @@ class BVariable:
         variable = BVariable(self.primal * other.primal)
 
         def backward(adjoint):
+            # Let Z = x1 * x2
+            # adjoint = dF/dZ
+
+            # Update dF/dZ
             variable.adjoint += adjoint
+
+            # Chain rule:
+            # dZ/dx1 = x2
+            # dZ/dx2 = x1
+            # So:
+            # dF/dx1 = dF/dZ * dZ/dx1 = adjoint * x2
+            # dF/dx2 = dF/dZ * dZ/dx2 = adjoint * x1
             self_adjoint = adjoint * other.primal
             other_adjoint = adjoint * self.primal
+
+            # Update dF/dx1 and dF/dx2
             self.backward(self_adjoint)
             other.backward(other_adjoint)
 
@@ -100,11 +126,39 @@ class BVariable:
         variable = BVariable(self.primal / other.primal)
 
         def backward(adjoint):
+            # Let Z = x1 / x2
+            # adjoint = dF/dZ
             variable.adjoint += adjoint
+
+            # Chain rule:
+            # dZ/dx1 = 1 / x2
+            # dZ/dx2 = - x1 / x2^2
+            # dF/dx1 = df/dZ * dZ/dx1 = adjoint * 1/x2
+            # dF/dx2 = df/dZ * dZ/dx2 = adjoint * -x1 / x2^2
             self_adjoint = adjoint * (1.0 / other.primal)
             other_adjoint = adjoint * (-1.0 * self.primal / other.primal**2)
+
+            # Update dF/dx1 and dF / dx2
             self.backward(self_adjoint)
             other.backward(other_adjoint)
+
+        variable.backward = backward
+        return variable
+    
+    def sin(self):
+        variable = BVariable(np.sin(self.primal))
+
+        def backward(adjoint):
+            # Let Z = sin(x1)
+            # adjoint = dF/dZ
+            variable.adjoint += adjoint
+
+            # Chain rule:
+            # dF/dx1 = dF/dZ * dZ/dx1 = adjoint * cos(x1)
+            self_adjoint = adjoint * np.cos(self.primal)
+
+            # Update dF/dx1
+            self.backward(self_adjoint)
 
         variable.backward = backward
         return variable
