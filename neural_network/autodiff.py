@@ -34,11 +34,22 @@ class FVariable:
         return FVariable(np.sin(self.primal), self.tangent * np.cos(self.primal))
     def cos(self) -> FVariable:
         return FVariable(np.cos(self.primal), self.tangent * -np.sin(self.primal))
+    def log(self) -> FVariable:
+        return FVariable(np.log(self.primal), self.tangent / self.primal)
+    def pow(self, exponent: float) -> FVariable:
+        if exponent == -1.0:
+            return FVariable(1.0 / self.primal, self.tangent / self.primal**2)
+        return FVariable(
+            np.float_power(self.primal, exponent), 
+            self.tangent * exponent * np.float_power(self.primal, exponent - 1.0)
+        )
     def __repr__(self):
         return f"primal: {self.primal}, tangent: {self.tangent}"
 
-negative_one = FVariable(-1.0, 0)
+# Seed for df/dy
+vn1 = FVariable(3.0, 0.0)
+v0 = FVariable(-4.0, 1.0)
 
-sigmoid = FVariable(1.0, 0) / (FVariable(1.0, 0.0) + FVariable(-4.0, 0).exp())
+v4 = (vn1 * v0).pow(-1.0)
 
-print(sigmoid)
+print(v4)
