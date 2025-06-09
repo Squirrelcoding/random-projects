@@ -1,5 +1,8 @@
 import numpy as np
 import numpy.typing as npt
+
+from autodiff import DiffScalar
+
 np.random.seed(42)
 
 class Layer():
@@ -14,7 +17,7 @@ class Linear(Layer):
     A linear layer
     """
     def __init__(self, in_features: int, out_features: int, bias: bool = True) -> None:
-        self.weights = np.random.rand(out_features, in_features)
+        self.weights = np.random.rand(out_features, in_features).astype(dtype=DiffScalar)
         if bias:
             self.bias = np.random.rand(out_features).T
         else:
@@ -22,7 +25,6 @@ class Linear(Layer):
 
     def forward(self, input_weights: npt.NDArray):
         return np.matmul(self.weights, input_weights) + self.bias
-
 
 # Activation functions
 

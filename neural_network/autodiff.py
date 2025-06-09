@@ -1,54 +1,9 @@
 from __future__ import annotations
 
 import numpy as np
-import numpy.typing as npt
 
-# Forward differentiation with some basic variables
-class FVariable:
-    def __init__(self, primal: npt.NDArray, tangent: npt.NDArray) -> None:
-        self.primal = primal
-        self.tangent = tangent
-    def __add__(self, other: FVariable) -> FVariable:
-        return FVariable(
-            self.primal + other.primal, 
-            self.tangent + other.tangent
-        )
-    def __sub__(self, other: FVariable) -> FVariable:
-        return FVariable(
-            self.primal - other.primal, 
-            self.tangent - other.tangent
-        )
-    def __mul__(self, other: FVariable) -> FVariable:
-        return FVariable(
-            self.primal * other.primal, 
-            other.primal * self.tangent + self.primal * other.tangent
-        )
-    def __truediv__(self, other: FVariable) -> FVariable:
-        return FVariable(
-            self.primal / other.primal,
-            (self.tangent * other.primal - self.primal * other.tangent) / (other.primal**2)
-        )
-    def exp(self) -> FVariable:
-        exp_val = np.exp(self.primal)
-        return FVariable(exp_val, self.tangent * exp_val)
-    def sin(self) -> FVariable:
-        return FVariable(np.sin(self.primal), self.tangent * np.cos(self.primal))
-    def cos(self) -> FVariable:
-        return FVariable(np.cos(self.primal), self.tangent * -np.sin(self.primal))
-    def log(self) -> FVariable:
-        return FVariable(np.log(self.primal), self.tangent / self.primal)
-    def pow(self, exponent: float) -> FVariable:
-        if exponent == -1.0:
-            return FVariable(1.0 / self.primal, self.tangent / self.primal**2)
-        return FVariable(
-            np.float_power(self.primal, exponent), 
-            self.tangent * exponent * np.float_power(self.primal, exponent - 1.0)
-        )
-    def __repr__(self):
-        return f"primal: {self.primal}, tangent: {self.tangent}"
-
-# Taken from https://huggingface.co/blog/andmholm/what-is-automatic-differentiation
-class BVariable:
+# Taken from https://huggingface.co/blog/andmholm/what-is-automatic-differentiation but expanded upon
+class DiffScalar:
     def __init__(self, primal, adjoint=0.0):
         self.primal = primal
         self.adjoint = adjoint
@@ -56,8 +11,8 @@ class BVariable:
     def backward(self, adjoint):
         self.adjoint += adjoint
 
-    def __add__(self, other: BVariable):
-        variable = BVariable(self.primal + other.primal)
+    def __add__(self, other: DiffScalar):
+        variable = DiffScalar(self.primal + other.primal)
 
         def backward(adjoint):
             # Let Z = x1 + x2
@@ -76,8 +31,8 @@ class BVariable:
         variable.backward = backward
         return variable
 
-    def __sub__(self, other: BVariable):
-        variable = BVariable(self.primal - other.primal)
+    def __sub__(self, other: DiffScalar):
+        variable = DiffScalar(self.primal - other.primal)
 
         def backward(adjoint):
             # Let Z = x1 - x2
@@ -96,8 +51,8 @@ class BVariable:
         variable.backward = backward
         return variable
 
-    def __mul__(self, other: BVariable):
-        variable = BVariable(self.primal * other.primal)
+    def __mul__(self, other: DiffScalar):
+        variable = DiffScalar(self.primal * other.primal)
 
         def backward(adjoint):
             # Let Z = x1 * x2
@@ -122,8 +77,8 @@ class BVariable:
         variable.backward = backward
         return variable
 
-    def __truediv__(self, other: BVariable):
-        variable = BVariable(self.primal / other.primal)
+    def __truediv__(self, other: DiffScalar):
+        variable = DiffScalar(self.primal / other.primal)
 
         def backward(adjoint):
             # Let Z = x1 / x2
@@ -145,17 +100,17 @@ class BVariable:
         variable.backward = backward
         return variable
     
-    def sin(self):
-        variable = BVariable(np.sin(self.primal))
+    def exp(self):
+        variable = DiffScalar(np.exp(self.primal))
 
         def backward(adjoint):
-            # Let Z = sin(x1)
+            # Let Z = exp(x1)
             # adjoint = dF/dZ
             variable.adjoint += adjoint
 
             # Chain rule:
-            # dF/dx1 = dF/dZ * dZ/dx1 = adjoint * cos(x1)
-            self_adjoint = adjoint * np.cos(self.primal)
+            # dF/dx1 = dF/dZ * dZ/dx1 = adjoint * exp(x1)
+            self_adjoint = adjoint * np.exp(self.primal)
 
             # Update dF/dx1
             self.backward(self_adjoint)
@@ -165,3 +120,51 @@ class BVariable:
 
     def __repr__(self) -> str:
         return f"primal: {self.primal}, adjoint: {self.adjoint}"
+
+def sigmoid(input: DiffScalar):
+    return DiffScalar(1.0) / (DiffScalar(1.0) + (DiffScalar(-1.0) * input).exp())
+
+a0 = DiffScalar(np.random.random())
+a1 = DiffScalar(np.random.random())
+
+b2 = DiffScalar(np.random.random())
+b3 = DiffScalar(np.random.random())
+b4 = DiffScalar(np.random.random())
+b5 = DiffScalar(np.random.random())
+b6 = DiffScalar(np.random.random())
+
+# a2
+w21 = DiffScalar(np.random.random())
+w22 = DiffScalar(np.random.random())
+
+# a3
+w31 = DiffScalar(np.random.random())
+w32 = DiffScalar(np.random.random())
+
+
+# a4
+w41 = DiffScalar(np.random.random())
+w42 = DiffScalar(np.random.random())
+
+# a5
+w51 = DiffScalar(np.random.random())
+w52 = DiffScalar(np.random.random())
+w53 = DiffScalar(np.random.random())
+
+# a6
+w61 = DiffScalar(np.random.random())
+w62 = DiffScalar(np.random.random())
+w63 = DiffScalar(np.random.random())
+
+a2 = w21 * a0 + w22 * a1 + b2
+a3 = w31 * a0 + w32 * a1 + b3
+a4 = w41 * a0 + w42 * a1 + b4
+
+a5 = sigmoid(w51 * a2 + w52 * a3 + w53 * a4 + b5)
+a6 = sigmoid(w61 * a2 + w62 * a3 + w63 * a4 + b6)
+
+a6.backward(1.0)
+
+print(a0)
+print(a1)
+print(a6)
