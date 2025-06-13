@@ -4,7 +4,7 @@ import numpy as np
 
 # Taken from https://huggingface.co/blog/andmholm/what-is-automatic-differentiation but expanded upon
 class DiffScalar:
-    def __init__(self, primal, adjoint=0.0):
+    def __init__(self, primal: float, adjoint: float = 0.0):
         self.primal = primal
         self.adjoint = adjoint
 
@@ -12,6 +12,7 @@ class DiffScalar:
         self.adjoint += adjoint
 
     def __add__(self, other: DiffScalar):
+        print(f"[DEBUG] Adding {self} and {other}")
         variable = DiffScalar(self.primal + other.primal)
 
         def backward(adjoint):
@@ -32,6 +33,7 @@ class DiffScalar:
         return variable
 
     def __sub__(self, other: DiffScalar):
+        print(f"[DEBUG] Subtracting {self} and {other}")
         variable = DiffScalar(self.primal - other.primal)
 
         def backward(adjoint):
@@ -52,6 +54,7 @@ class DiffScalar:
         return variable
 
     def __mul__(self, other: DiffScalar):
+        print(f"[DEBUG] Multiplying {self} and {other}")
         variable = DiffScalar(self.primal * other.primal)
 
         def backward(adjoint):
@@ -78,6 +81,7 @@ class DiffScalar:
         return variable
 
     def __truediv__(self, other: DiffScalar):
+        print(f"[DEBUG] Dividing {self} and {other}")
         variable = DiffScalar(self.primal / other.primal)
 
         def backward(adjoint):
@@ -99,7 +103,7 @@ class DiffScalar:
 
         variable.backward = backward
         return variable
-    
+
     def exp(self):
         variable = DiffScalar(np.exp(self.primal))
 
@@ -119,7 +123,9 @@ class DiffScalar:
         return variable
 
     def __repr__(self) -> str:
-        return f"primal: {self.primal}, adjoint: {self.adjoint}"
+        return f"DiffScalar({self.primal}, {self.adjoint})"
+
+
 
 def sigmoid(input: DiffScalar):
     return DiffScalar(1.0) / (DiffScalar(1.0) + (DiffScalar(-1.0) * input).exp())

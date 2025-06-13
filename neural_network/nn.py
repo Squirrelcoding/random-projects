@@ -14,6 +14,13 @@ class NN():
         for layer in self.layers:
             x = layer.forward(x)
         return x
+    def calculate_gradient(self, input: int, output: int):
+        """
+        Given two indices that correspond to two distinct trainable (`Linear`) layers,
+        calculate the gradients of each activation with respect to the weights of the 
+        previous layer.
+        """
+        pass
 
 nn = NN([
     Linear(3, 5, bias=True),
@@ -22,6 +29,6 @@ nn = NN([
     Sigmoid()
 ])
 
-x = np.array([1.0, -2.0, 3.0])
+x = np.array([DiffScalar(1.0), DiffScalar(-2.0), DiffScalar(3.0)])
 
 print(nn.forward(x))
