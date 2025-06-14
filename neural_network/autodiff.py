@@ -12,7 +12,7 @@ class DiffScalar:
         self.adjoint += adjoint
 
     def __add__(self, other: DiffScalar):
-        print(f"[DEBUG] Adding {self} and {other}")
+        # print(f"[DEBUG] Adding {self} and {other}")
         variable = DiffScalar(self.primal + other.primal)
 
         def backward(adjoint):
@@ -33,7 +33,7 @@ class DiffScalar:
         return variable
 
     def __sub__(self, other: DiffScalar):
-        print(f"[DEBUG] Subtracting {self} and {other}")
+        # print(f"[DEBUG] Subtracting {self} and {other}")
         variable = DiffScalar(self.primal - other.primal)
 
         def backward(adjoint):
@@ -54,7 +54,7 @@ class DiffScalar:
         return variable
 
     def __mul__(self, other: DiffScalar):
-        print(f"[DEBUG] Multiplying {self} and {other}")
+        # print(f"[DEBUG] Multiplying {self} and {other}")
         variable = DiffScalar(self.primal * other.primal)
 
         def backward(adjoint):
@@ -81,7 +81,7 @@ class DiffScalar:
         return variable
 
     def __truediv__(self, other: DiffScalar):
-        print(f"[DEBUG] Dividing {self} and {other}")
+        # print(f"[DEBUG] Dividing {self} and {other}")
         variable = DiffScalar(self.primal / other.primal)
 
         def backward(adjoint):
@@ -124,6 +124,9 @@ class DiffScalar:
 
     def __repr__(self) -> str:
         return f"DiffScalar({self.primal}, {self.adjoint})"
+
+    def __lt__(self, other: DiffScalar) -> bool:
+        return self.primal < other.primal
 
 
 
@@ -171,6 +174,6 @@ a6 = sigmoid(w61 * a2 + w62 * a3 + w63 * a4 + b6)
 
 a6.backward(1.0)
 
-print(a0)
-print(a1)
-print(a6)
+# print(a0)
+# print(a1)
+# print(a6)

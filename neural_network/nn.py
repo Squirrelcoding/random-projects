@@ -29,6 +29,6 @@ nn = NN([
     Sigmoid()
 ])
 
-x = np.array([DiffScalar(1.0), DiffScalar(-2.0), DiffScalar(3.0)])
+x = np.array([DiffScalar(1.0), DiffScalar(-2.0), DiffScalar(3.0)]).T
 
 print(nn.forward(x))
