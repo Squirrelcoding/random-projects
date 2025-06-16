@@ -7,7 +7,7 @@ np.random.seed(42)
 
 def dot(A: np.ndarray, B: np.ndarray):
     assert A.shape[-1] == B.shape[0]
-    B= B.reshape(-1, 1)
+    B = B.reshape(-1, 1)
     result = np.empty((A.shape[0], B.shape[1]), dtype=object)
     for i in range(A.shape[0]):
         for j in range(B.shape[1]):
@@ -43,6 +43,16 @@ class Linear(Layer):
         # Assumes input_weights is a vector of DiffScalars (shape: [in_features])
         r = dot(self.weights, input_weights) + self.bias
         return r
+    def __str__(self):
+        s = ""
+        for weight in self.weights:
+            s += str(weight)
+            s += "\n"
+        s += "\n\n\n"
+        for bias in self.bias:
+            s += str(bias)
+            s += "\n"
+        return s
 
 # Activation functions
 

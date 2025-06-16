@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import numpy as np
 
+np.random.seed(42)
+
 # Taken from https://huggingface.co/blog/andmholm/what-is-automatic-differentiation but expanded upon
 class DiffScalar:
     def __init__(self, primal: float, adjoint: float = 0.0):
@@ -124,7 +126,9 @@ class DiffScalar:
 
     def __repr__(self) -> str:
         return f"DiffScalar({self.primal}, {self.adjoint})"
-
+    def __str__(self) -> str:
+        return f"DiffScalar({self.primal}, {self.adjoint})"
+        
     def __lt__(self, other: DiffScalar) -> bool:
         return self.primal < other.primal
 
@@ -173,6 +177,13 @@ a5 = sigmoid(w51 * a2 + w52 * a3 + w53 * a4 + b5)
 a6 = sigmoid(w61 * a2 + w62 * a3 + w63 * a4 + b6)
 
 a6.backward(1.0)
+# for var in [a0, a1, a2, a3, a4, a5, a6,
+#             w21, w22, w31, w32, w41, w42, w51, w52, w53, w61, w62, w63,
+#             b2, b3, b4, b5, b6]:
+#     var.adjoint = 0.0
+
+a5.backward(1.0)
+# print(a2, a3, a4)
 
 # print(a0)
 # print(a1)
