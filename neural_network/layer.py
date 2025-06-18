@@ -26,10 +26,26 @@ class Layer():
     """
     def __init__(self):
         self.activations = np.array([])
+        self.inputs = np.array([])
     def forward(self, input_weights: npt.NDArray):
         return input_weights
     def backward(self, grad_output: npt.NDArray) -> npt.NDArray:
-        return grad_output
+        """
+        Given the output, this method calculates the gradient of the loss with respect to 
+        the output `∂L/∂a` and computes the gradient of the loss with respect to its inputs (`∂L/∂x`)
+        and the gradient of the loss with respect of the loss with respect to its weights and biases.
+
+        It returns `∂L/∂x` to the previous layer.
+        """
+                
+        # Loop through the current activations
+        for i in range(len(grad_output)):
+            # Call backward
+            self.activations[i].backward(grad_output[i])
+
+        activation_grad = np.array([x.adjoint for x in self.inputs], dtype=object)
+        
+        return activation_grad
 
 class Linear(Layer):
     """
@@ -60,7 +76,7 @@ class Linear(Layer):
         the output `∂L/∂a` and computes the gradient of the loss with respect to its inputs (`∂L/∂x`)
         and the gradient of the loss with respect of the loss with respect to its weights and biases.
 
-        It returns `∂L/∂x` to the previous layer.
+        It returns `∂L/∂x` to the previous layer. Additionally, it updates the weights and biases of the layer.
         """
         
         # Reset adjoints
@@ -102,12 +118,10 @@ def sigmoid(x: np.ndarray):
     return sigmoid_vec(x)
 
 class Sigmoid(Layer):
-    def __init__(self) -> None:
-        self.activations = []
     def forward(self, input_weights: npt.NDArray):
+        self.inputs = input_weights
         self.activations = sigmoid(input_weights)
         return self.activations
-    # def backward(self, )
 
 def relu_scalar(x: DiffScalar):
     if x.primal > 0:
@@ -127,8 +141,6 @@ def relu(x: np.ndarray):
     return relu_vec(x)
 
 class ReLU(Layer):
-    def __init__(self) -> None:
-        self.activations = []
     def forward(self, input_weights: npt.NDArray):
         self.activations = relu(input_weights)
         return self.activations
