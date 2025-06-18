@@ -6,7 +6,7 @@ from autodiff import DiffScalar
 np.random.seed(42)
 
 
-LEARNING_RATE = 0.001
+LEARNING_RATE = 0.1
 
 def dot(A: np.ndarray, B: np.ndarray):
     assert A.shape[-1] == B.shape[0]
@@ -79,17 +79,12 @@ class Linear(Layer):
         It returns `∂L/∂x` to the previous layer. Additionally, it updates the weights and biases of the layer.
         """
         
-        # Reset adjoints
-        for activation in self.activations:
-            activation.adjoint = 0.0
-        
         # Loop through the current activations
         for i in range(len(grad_output)):
             # Call backward
             self.activations[i].backward(grad_output[i])
 
         activation_grad = np.array([x.adjoint for x in self.inputs], dtype=object)
-        
         # Loop through the weights and biases and adjust accordingly
         for i in range(self.weights.shape[0]):
             for j in range(self.weights.shape[1]):
