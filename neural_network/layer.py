@@ -5,6 +5,9 @@ from autodiff import DiffScalar
 
 np.random.seed(42)
 
+
+LEARNING_RATE = 0.001
+
 def dot(A: np.ndarray, B: np.ndarray):
     assert A.shape[-1] == B.shape[0]
     B = B.reshape(-1, 1)
@@ -60,7 +63,6 @@ class Linear(Layer):
         It returns `∂L/∂x` to the previous layer.
         """
         
-        
         # Reset adjoints
         for activation in self.activations:
             activation.adjoint = 0.0
@@ -72,8 +74,11 @@ class Linear(Layer):
 
         activation_grad = np.array([x.adjoint for x in self.inputs], dtype=object)
         
-        # Loop through the weights and biases
-        
+        # Loop through the weights and biases and adjust accordingly
+        for i in range(self.weights.shape[0]):
+            for j in range(self.weights.shape[1]):
+                self.weights[i][j].primal -= LEARNING_RATE * self.weights[i][j].adjoint
+
         return activation_grad
 
     def __str__(self):
@@ -102,6 +107,7 @@ class Sigmoid(Layer):
     def forward(self, input_weights: npt.NDArray):
         self.activations = sigmoid(input_weights)
         return self.activations
+    # def backward(self, )
 
 def relu_scalar(x: DiffScalar):
     if x.primal > 0:
